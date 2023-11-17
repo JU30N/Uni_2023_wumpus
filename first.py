@@ -28,6 +28,18 @@ def has_overlapp(lst1, x):
         if i == x:
             return True
     return False
+
+def has_wumpus_neighbour(lst1, lst2):
+    if lst1 == lst2:
+        return True
+    else:
+        return False
+    
+def has_overlapp_intersection(lst1, x):
+    for i in lst1:
+        if x == i:
+            return True
+    return False
   
 class danger_room():
     def __init__(self, coordinate):
@@ -99,10 +111,10 @@ class rooms():
         
 class coordinate_to_room_name():
     def __init__(self): 
-        self.dictionary_lst1 = {(0, 0) : "1", (0, 1) : "2", (0, 2) : "3", (0, 3) : "4", (0, 4) : "4",
-                                (1, 0) : "5", (1, 1) : "6", (1, 2) : "7", (1, 3) : "8", (1, 4) : "9",
-                                (2, 0) : "10", (2, 1): "11", (2, 2):"12", (2, 3): "13", (2, 4): "14",
-                                (3, 0) : "15", (3, 1): "16", (3, 2):"17", (3, 3): "18", (3, 4):"19"}
+        self.dictionary_lst1 = {(0, 0) : "1", (0, 1) : "2", (0, 2) : "3", (0, 3) : "4", (0, 4) : "5",
+                                (1, 0) : "6", (1, 1) : "7", (1, 2) : "8", (1, 3) : "9", (1, 4) : "10",
+                                (2, 0) : "11", (2, 1): "12", (2, 2):"13", (2, 3): "14", (2, 4): "15",
+                                (3, 0) : "16", (3, 1): "17", (3, 2):"18", (3, 3): "19", (3, 4):"20"}
     
     def __str__(self):
         return f""
@@ -120,7 +132,8 @@ class coordinate_to_room_name():
             x = self.dictionary_lst1.get(i)
             room_numbers.append(x)
         return ", ".join(room_numbers)       
-     
+    
+
 class score():
     def __init__(self):
         self.score_value = 0
@@ -304,6 +317,7 @@ class arrow():
             print(self.player_coordinate)
 
 def main():
+    
 
     room_one = rooms()
     player_one = player()
@@ -358,6 +372,17 @@ def main():
             list_player_neighbour = player_one.north_south_west_east() 
             coordinate_to_room_name_one = coordinate_to_room_name()   
 
+            print("wumpus location is")
+            print(list_wumpus)
+            print("wumpus room"+ coordinate_to_room_name_one.what_location_player(list_wumpus, ""))
+            print("x")
+
+            print(list_wumpus)
+            print(list_player_neighbour)
+            print(has_overlapp_intersection(list_player_neighbour, list_wumpus))
+            print("x")
+            print(list_player)
+
             print("You are in room " + coordinate_to_room_name_one.what_location_player(list_player, "player"))
             print("Room beside you are rooms " + coordinate_to_room_name_one.neighbour_room_number(list_player_neighbour))
 
@@ -365,7 +390,7 @@ def main():
                 """checks the surrounding for death"""
                 print("You can feel the wind gust")
 
-            if has_intersection(list_wumpus, list_player_neighbour):
+            if has_overlapp_intersection(list_player_neighbour, list_wumpus):
                 """checks the surrounding for wumpus"""
                 print("You can smell wumpus")
 
@@ -389,11 +414,14 @@ def main():
                     if arrow_one.get() == wumpus_room_one.get():
                         wumpus_room_one.boss_dead()
                         print("game won")
-                    
+                        score_one.get()
+                        player_one.dead
+
                     amount_of_arrows = amount_of_arrows + 1
 
                     if amount_of_arrows == 3:
                         arrow_one.dead()
+    print("game" + "/n" + "hi game won or game over i dont know")
                     
 
 
