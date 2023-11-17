@@ -376,7 +376,7 @@ def main():
         teleport_room_one = teleport_rooms(teleport_rooms_coordinates)
         room_one.add("teleport_rooms", teleport_room_one.get())
 
-    5 
+    
 
 
 
