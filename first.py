@@ -304,6 +304,7 @@ def main():
     list_of_all_rooms = [(y, x) for x in range(5) for y in range(4)]
     random.shuffle(list_of_all_rooms)
 
+    """adding rooms to respective list"""
     for i in range(0, 5, 1):
         danger_rooms_coordinates = list_of_all_rooms[i]
         danger_room_one = danger_room(danger_rooms_coordinates)
@@ -326,14 +327,11 @@ def main():
         teleport_room_one = teleport_rooms(teleport_rooms_coordinates)
         room_one.add("teleport_rooms", teleport_room_one.get())
 
-    #x = safe_rooms_one.safe_room_coordiantes[0]
-    #print(x)
-    #print(list_of_all_rooms)
-
     x_coordinates = safe_rooms_one.safe_room_coordiantes[0]
     y_coordinates = safe_rooms_one.safe_room_coordiantes[1]
     start_coordinates = [x_coordinates, y_coordinates]
     player_one.start_coordinate(start_coordinates)
+
 
 
     while player_one.is_alive():
@@ -353,55 +351,26 @@ def main():
                 player_one.start_coordinate(lst)
                 print(player_one.get())
 
-            list_player_neighbour = player_one.north_south_west_east()
-
             if has_intersection(list_danger, list_player_neighbour):
                 """checks the surrounding for death"""
                 print("You can feel the wind gust")
+
             if has_intersection(list_wumpus, list_player_neighbour):
                 """checks the surrounding for wumpus"""
                 print("You can smell wumpus")
+
             if has_intersection(list_teleport, list_player_neighbour):
                 """checks the surrounding for teleport"""
                 print("You can hear bats")
                 print(list_teleport)
-                
+
             x = input("move or shoot,  m/s   : ")
             if x == "m":
-
                 move = try_string()
                 player_one.move(move)
 
                 if move == "test":        
-                    print(player_one.get())           
-                    #print(room_one.rooms_dictionary)
-                    print(room_one.get_specific_rooms("danger_rooms"))
-                    print("dangerrooms")                
-                    #x = room_one.get_specific_rooms("danger_rooms")
-                    #print(x)
-                    print(player_one.get())
-                    print(player_one.north_south_west_east())
-                    print("player location")
-
-                    """checks if dangerrooms and wumpus room is n s w e of the players curren location"""
-                    
-
-                    if has_intersection(list_danger, list_player_neighbour):
-                        """checks the surrounding for death"""
-                        print("You can feel the wind gust")
-                    elif has_intersection(list_wumpus, list_player_neighbour):
-                        """checks the surrounding for wumpus"""
-                        print("You can smell wumpus")
-                    elif has_intersection(list_teleport, list_player_neighbour):
-                        """checks the surrounding for teleport"""
-                        print("You can hear bats")
-                        print(list_teleport)
-                    elif has_intersection(list_teleport, player_one.get()):
-                        print("You got teleported")
-                        i = random.randint(0, 9)
-                        lst = list_safe[i]
-                        player_one.start_coordinate(lst)
-
+                    print("")
   
 
 
