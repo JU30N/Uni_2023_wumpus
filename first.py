@@ -516,7 +516,11 @@ def main():
                     if arrow_one.get() == wumpus_room_one.get():
                         wumpus_room_one.boss_dead()
                         print("game won")
-                        score_one.get()
+                        score_str = str(score_one.get())
+                        score_str_one = score_str + "\n"
+                        with open("high_score", 'w') as file:
+                            file.write(score_str_one)
+
                         player_one.dead()
                         arrow_one.dead()
 
