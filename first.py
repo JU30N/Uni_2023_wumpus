@@ -283,7 +283,7 @@ def has_intersection(lst1, lst2):
 
 def has_overlapp(lst1, x):
     for i in lst1:
-        if i in x:
+        if i == x:
             return True
     return False
 
@@ -356,12 +356,14 @@ def main():
 
             
                
-            x = input("move or shoot,  m/s   : ")
+            
             #x = "m"
             #move = "test"
 
 
-
+            print(has_overlapp(list_teleport, list_player))
+            print(list_player)
+            print(list_teleport)
 
             if has_overlapp(list_teleport, list_player):
                 print("You got teleported")
@@ -370,22 +372,25 @@ def main():
                 player_one.start_coordinate(lst)
                 print(player_one.get())
 
-            elif x == "m":
+            x = input("move or shoot,  m/s   : ")
+            if x == "m":
                 list_player_neighbour = player_one.north_south_west_east()
-                move = try_string()
-                player_one.move(move)
+                #print(list_player_neighbour)
+                #print(list_teleport)
+                print(has_intersection(list_teleport, list_player_neighbour))
                 #print(player_one.get())
                 if has_intersection(list_danger, list_player_neighbour):
                     """checks the surrounding for death"""
                     print("You can feel the wind gust")
-                elif has_intersection(list_wumpus, list_player_neighbour):
+                if has_intersection(list_wumpus, list_player_neighbour):
                     """checks the surrounding for wumpus"""
                     print("You can smell wumpus")
-                elif has_intersection(list_teleport, list_player_neighbour):
+                if has_intersection(list_teleport, list_player_neighbour):
                     """checks the surrounding for teleport"""
                     print("You can hear bats")
                     print(list_teleport)
-
+                move = try_string()
+                player_one.move(move)
 
                 if move == "test":        
                     print(player_one.get())           
