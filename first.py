@@ -1,4 +1,4 @@
-
+"""git status -> git add -A -> git commit -m "message" -> git push"""
 import random
 """make a new file like student files with rooms an like students take 3 of those"""
 
@@ -346,25 +346,6 @@ def main():
             list_player = player_one.get()
             list_player_neighbour = player_one.north_south_west_east()    
 
-            print(list_player)
-            print("x")
-            print(list_safe)
-            print("x")
-
-            print(list_teleport)
-            print("x")         
-
-            
-               
-            
-            #x = "m"
-            #move = "test"
-
-
-            print(has_overlapp(list_teleport, list_player))
-            print(list_player)
-            print(list_teleport)
-
             if has_overlapp(list_teleport, list_player):
                 print("You got teleported")
                 i = random.randint(0, 9)
@@ -372,23 +353,22 @@ def main():
                 player_one.start_coordinate(lst)
                 print(player_one.get())
 
+            list_player_neighbour = player_one.north_south_west_east()
+
+            if has_intersection(list_danger, list_player_neighbour):
+                """checks the surrounding for death"""
+                print("You can feel the wind gust")
+            if has_intersection(list_wumpus, list_player_neighbour):
+                """checks the surrounding for wumpus"""
+                print("You can smell wumpus")
+            if has_intersection(list_teleport, list_player_neighbour):
+                """checks the surrounding for teleport"""
+                print("You can hear bats")
+                print(list_teleport)
+                
             x = input("move or shoot,  m/s   : ")
             if x == "m":
-                list_player_neighbour = player_one.north_south_west_east()
-                #print(list_player_neighbour)
-                #print(list_teleport)
-                print(has_intersection(list_teleport, list_player_neighbour))
-                #print(player_one.get())
-                if has_intersection(list_danger, list_player_neighbour):
-                    """checks the surrounding for death"""
-                    print("You can feel the wind gust")
-                if has_intersection(list_wumpus, list_player_neighbour):
-                    """checks the surrounding for wumpus"""
-                    print("You can smell wumpus")
-                if has_intersection(list_teleport, list_player_neighbour):
-                    """checks the surrounding for teleport"""
-                    print("You can hear bats")
-                    print(list_teleport)
+
                 move = try_string()
                 player_one.move(move)
 
