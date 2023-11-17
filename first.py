@@ -287,7 +287,15 @@ def has_overlapp(lst1, x):
             return True
     return False
 
+class score():
+    def __init__(self):
+        self.score_value = 0
 
+    def get(self):
+        return f"{self.score_value}"
+    
+    def add(self):
+        self.score_value = self.score_value + 1
 
 def main():
     """input some kind of location to player"""
@@ -296,8 +304,8 @@ def main():
     room_one = rooms()
     player_one = player()
     arrow_one = arrow()
+    score_one = score()
 
-    score = 0
 
     teleport_coordiantes_to = []
 
@@ -365,13 +373,15 @@ def main():
                 print(list_teleport)
 
             x = input("move or shoot,  m/s   : ")
+            score_one.add()
             if x == "m":
                 move = try_string()
                 player_one.move(move)
 
                 if move == "test":        
                     print("")
-  
+
+            elif x == "s":
 
 
 main()
