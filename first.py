@@ -297,6 +297,31 @@ class score():
     def add(self):
         self.score_value = self.score_value + 1
 
+class coordinate_to_room_name():
+    def __init__(self): 
+        self.dictionary_lst1 = {(0, 0) : "1", (0, 1) : "2", (0, 2) : "3", (0, 3) : "4", (0, 4) : "4",
+                                (1, 0) : "5", (1, 1) : "6", (1, 2) : "7", (1, 3) : "8", (1, 4) : "9",
+                                (2, 0) : "10", (2, 1): "11", (2, 2):"12", (2, 3): "13", (2, 4): "14",
+                                (3, 0) : "15", (3, 1): "16", (3, 2):"17", (3, 3): "18", (3, 4):"19"}
+    
+    def __str__(self):
+        return f""
+
+    def what_location_player(self, lst1, type_room):
+        x = self.dictionary_lst1.get(lst1)
+        if type_room == "player":
+            return x    
+        else:
+            return x
+        
+    def neighbour_room_number(self, list_tuple1):
+        room_numbers = []
+        for i in list_tuple1:
+            x = self.dictionary_lst1.get(i)
+            room_numbers.append(x)
+        return ", ".join(room_numbers)        
+
+
 def main():
     """input some kind of location to player"""
     """adding certain amount of dangerrooms to the list of all rooms in class room because it is similar to the labb 6"""    
@@ -309,31 +334,32 @@ def main():
 
     teleport_coordiantes_to = []
 
+    """suffles all the rooms to random coordinates"""
     list_of_all_rooms = [(y, x) for x in range(5) for y in range(4)]
     random.shuffle(list_of_all_rooms)
+
+    
+
 
     """adding rooms to respective list"""
     for i in range(0, 5, 1):
         danger_rooms_coordinates = list_of_all_rooms[i]
         danger_room_one = danger_room(danger_rooms_coordinates)
         room_one.add("danger_rooms", danger_room_one.get())
-
     wumpus_room_coordiantes = list_of_all_rooms[9]
     wumpus_room_one = wumpus_room(wumpus_room_coordiantes)
     room_one.add("wumpus_room",wumpus_room_one.get())
-
     for y in range(10, 20, 1):
         safe_roooms_coordinates = list_of_all_rooms[y]
         safe_rooms_one = safe_rooms(safe_roooms_coordinates)
         room_one.add("safe_rooms", safe_rooms_one.get())
-
     for z in range(10, 14, 1):
         teleport_coordiantes_to.append(z)
-
     for x in range(5, 9, 1):
         teleport_rooms_coordinates = list_of_all_rooms[x]
         teleport_room_one = teleport_rooms(teleport_rooms_coordinates)
         room_one.add("teleport_rooms", teleport_room_one.get())
+
 
     x_coordinates = safe_rooms_one.safe_room_coordiantes[0]
     y_coordinates = safe_rooms_one.safe_room_coordiantes[1]
@@ -345,12 +371,18 @@ def main():
     while player_one.is_alive():
         while wumpus_room_one.is_boss_alive():
 
+
+
             list_danger = room_one.get_specific_rooms("danger_rooms")
             list_wumpus = wumpus_room_one.get()
             list_teleport = room_one.get_specific_rooms("teleport_rooms")
             list_safe = room_one.get_specific_rooms("safe_rooms")
             list_player = player_one.get()
-            list_player_neighbour = player_one.north_south_west_east()    
+            list_player_neighbour = player_one.north_south_west_east() 
+            coordinate_to_room_name_one = coordinate_to_room_name()   
+
+            print("You are in room " + coordinate_to_room_name_one.what_location_player(list_player, "player"))
+            print("Room beside you are rooms " + coordinate_to_room_name_one.neighbour_room_number(list_player_neighbour))
 
             if has_overlapp(list_teleport, list_player):
                 print("You got teleported")
@@ -370,7 +402,7 @@ def main():
             if has_intersection(list_teleport, list_player_neighbour):
                 """checks the surrounding for teleport"""
                 print("You can hear bats")
-                print(list_teleport)
+
 
             x = input("move or shoot,  m/s   : ")
             score_one.add()
@@ -381,7 +413,6 @@ def main():
                 if move == "test":        
                     print("")
 
-            elif x == "s":
 
 
 main()
