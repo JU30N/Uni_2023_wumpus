@@ -18,10 +18,10 @@ def try_string():
     return x
 
 def select_mode():
-    x = input("Hard or Normal, H/N : ")
+    x = input("Hard or Normal or Easy, H/N/E : ")
     while not check_if_string(x):
-        print("not an H or N")
-        x = input("Hard or Normal, H/N : ")
+        print("not an H or N or E")
+        x = input("Hard or Normal, H/N/E : ")
     return x
 
 def has_intersection(lst1, lst2):
@@ -84,6 +84,60 @@ class wumpus_room():
     
     def boss_dead(self):
         self.alive = False
+
+    def boss_move(self, player_coordinate):
+        player_x_coord = player_coordinate[0]
+        player_y_coord = player_coordinate[1]
+        boss_x_coord = self.wumpus_room_coordiantes[0]
+        boss_y_coord = self.wumpus_room_coordiantes[1]
+
+        if player_x_coord > boss_x_coord and player_y_coord > boss_y_coord:
+            boss_y_coord = boss_y_coord + 1
+            if boss_y_coord > 4:
+                boss_y_coord = 0 
+            self.wumpus_room_coordiantes[1] = boss_y_coord
+        
+        if player_x_coord > boss_x_coord and player_y_coord < boss_y_coord:
+            boss_y_coord = boss_y_coord - 1
+            if boss_y_coord < 0:
+                boss_y_coord = 4
+            self.wumpus_room_coordiantes[1] = boss_y_coord
+
+        if player_x_coord < boss_x_coord and player_y_coord == boss_y_coord:
+            boss_x_coord = boss_x_coord + 1
+            if boss_x_coord > 3:
+                boss_x_coord = 0
+            self.wumpus_room_coordiantes[0] = boss_x_coord
+
+        if player_x_coord > boss_x_coord and player_y_coord == boss_y_coord:
+            boss_x_coord = boss_x_coord - 1
+            if boss_x_coord < 0:
+                boss_x_coord = 3
+            self.wumpus_room_coordiantes[0] = boss_x_coord
+
+        if player_x_coord < boss_x_coord and player_y_coord < boss_y_coord:
+            boss_x_coord = boss_x_coord - 1
+            if boss_x_coord > 3:
+                boss_x_coord = 0
+            self.wumpus_room_coordiantes[0] = boss_x_coord
+
+        if player_x_coord > boss_x_coord and player_y_coord > boss_y_coord:
+            boss_x_coord = boss_x_coord + 1
+            if boss_x_coord > 3:
+                boss_x_coord = 0
+            self.wumpus_room_coordiantes[0] = boss_x_coord
+
+        if player_x_coord == boss_x_coord and player_y_coord < boss_y_coord:
+            boss_y_coord = boss_y_coord - 1
+            if boss_y_coord < 0:
+                boss_y_coord = 4
+            self.wumpus_room_coordiantes[1] = boss_y_coord
+
+        if player_x_coord == boss_x_coord and player_y_coord > boss_y_coord:
+            boss_y_coord = boss_y_coord + 1
+            if boss_y_coord > 4:
+                boss_y_coord = 0
+            self.wumpus_room_coordiantes[1] = boss_y_coord
 
 class rooms():
     
@@ -317,13 +371,21 @@ class arrow():
             self.player_coordinate["y"] = new_coordinate_y
             print(self.player_coordinate)
 
+def true_or_not(input):
+    if input == "1":
+        return True
+    else:
+        return False
+
 def check_n_h(x):
     if x == "N":
-        return False
+        return True
     elif x =="H":
-        return False
+        return True
+    elif x =="E":
+        return True
     else:
-        print("N or H")
+        print("N or H or E")
         return True
 def main():
     
@@ -342,21 +404,35 @@ def main():
     """adding rooms to respective list"""
     x = select_mode()
     while check_n_h(x):
-        difficulty = select_mode()
-        if difficulty == "H":
+        if x == "H":
             mode_level = 9
             mode_level_a  = 10
             mode_level_teleport = mode_level + 2
             mode_level_safe = mode_level + 3
             mode_level_teleport_a = mode_level + mode_level_teleport
             mode_level_safe_a = 20
-        if difficulty == "N":
+            true_for_boss_movment = 1
+            break
+        elif x == "N":
             mode_level = 5
             mode_level_a = 5
             mode_level_teleport = 9
             mode_level_teleport_a = mode_level + mode_level_teleport
             mode_level_safe = 10
             mode_level_safe_a = 20
+            true_for_boss_movment = 0
+            break
+        elif x == "E":
+            mode_level = 5
+            mode_level_a = 5
+            mode_level_teleport = 6
+            mode_level_teleport_a = mode_level + mode_level_teleport
+            mode_level_safe = 7
+            mode_level_safe_a = 20
+            true_for_boss_movment = 0
+            break
+        else:
+            x = select_mode()
             
     for i in range(0, mode_level, 1):
         danger_rooms_coordinates = list_of_all_rooms[i]
@@ -375,10 +451,6 @@ def main():
         teleport_rooms_coordinates = list_of_all_rooms[x]
         teleport_room_one = teleport_rooms(teleport_rooms_coordinates)
         room_one.add("teleport_rooms", teleport_room_one.get())
-
-    
-
-
 
     x_coordinates = safe_rooms_one.safe_room_coordiantes[0]
     y_coordinates = safe_rooms_one.safe_room_coordiantes[1]
@@ -403,25 +475,12 @@ def main():
             list_player_neighbour = player_one.north_south_west_east() 
             coordinate_to_room_name_one = coordinate_to_room_name()   
 
-
-
-            print("wumpus location is")
-            print(list_wumpus)
-            print("wumpus room"+ coordinate_to_room_name_one.what_location_player(list_wumpus, ""))
-            print("x")
-
-            print(list_wumpus)
-            print(list_player_neighbour)
-            print(has_overlapp_intersection(list_player_neighbour, list_wumpus))
-            print("x")
-            print(player_coord)
-            print(list_danger)
-
             print("You are in room " + coordinate_to_room_name_one.what_location_player(player_coord, "player"))
             print("Room beside you are rooms " + coordinate_to_room_name_one.neighbour_room_number(list_player_neighbour))
 
 
-
+            if true_or_not(true_for_boss_movment):
+                wumpus_room_one.boss_move(player_coord)
 
             if has_intersection(list_danger, list_player_neighbour):
                 """checks the surrounding for death"""
