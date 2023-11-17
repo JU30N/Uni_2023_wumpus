@@ -23,7 +23,7 @@ def select_mode():
         print("not an H or N")
         x = input("Hard or Normal, H/N : ")
     return x
-    
+
 def has_intersection(lst1, lst2):
     for i in lst2:
         if i in lst1:
@@ -317,6 +317,14 @@ class arrow():
             self.player_coordinate["y"] = new_coordinate_y
             print(self.player_coordinate)
 
+def check_n_h(x):
+    if x == "N":
+        return False
+    elif x =="H":
+        return False
+    else:
+        print("N or H")
+        return True
 def main():
     
 
@@ -332,23 +340,24 @@ def main():
     random.shuffle(list_of_all_rooms)
 
     """adding rooms to respective list"""
-
-    difficulty = select_mode()
-    if difficulty == "H":
-        mode_level = 9
-        mode_level_a  = 10
-        mode_level_teleport = mode_level + 2
-        mode_level_safe = mode_level + 3
-        mode_level_teleport_a = mode_level + mode_level_teleport
-        mode_level_safe_a = 20
-    if difficulty == "N":
-        mode_level = 5
-        mode_level_a = 5
-        mode_level_teleport = 9
-        mode_level_teleport_a = mode_level + mode_level_teleport
-        mode_level_safe = 10
-        mode_level_safe_a = 20
-        
+    x = select_mode()
+    while check_n_h(x):
+        difficulty = select_mode()
+        if difficulty == "H":
+            mode_level = 9
+            mode_level_a  = 10
+            mode_level_teleport = mode_level + 2
+            mode_level_safe = mode_level + 3
+            mode_level_teleport_a = mode_level + mode_level_teleport
+            mode_level_safe_a = 20
+        if difficulty == "N":
+            mode_level = 5
+            mode_level_a = 5
+            mode_level_teleport = 9
+            mode_level_teleport_a = mode_level + mode_level_teleport
+            mode_level_safe = 10
+            mode_level_safe_a = 20
+            
     for i in range(0, mode_level, 1):
         danger_rooms_coordinates = list_of_all_rooms[i]
         danger_room_one = danger_room(danger_rooms_coordinates)
