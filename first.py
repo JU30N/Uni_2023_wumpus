@@ -370,26 +370,25 @@ def main():
 
     while player_one.is_alive():
         while wumpus_room_one.is_boss_alive():
-
-
-
-            list_danger = room_one.get_specific_rooms("danger_rooms")
-            list_wumpus = wumpus_room_one.get()
             list_teleport = room_one.get_specific_rooms("teleport_rooms")
-            list_safe = room_one.get_specific_rooms("safe_rooms")
             list_player = player_one.get()
-            list_player_neighbour = player_one.north_south_west_east() 
-            coordinate_to_room_name_one = coordinate_to_room_name()   
-
-            print("You are in room " + coordinate_to_room_name_one.what_location_player(list_player, "player"))
-            print("Room beside you are rooms " + coordinate_to_room_name_one.neighbour_room_number(list_player_neighbour))
 
             if has_overlapp(list_teleport, list_player):
                 print("You got teleported")
                 i = random.randint(0, 9)
                 lst = list_safe[i]
                 player_one.start_coordinate(lst)
-                print(player_one.get())
+                list_player = player_one.get()
+
+
+            list_danger = room_one.get_specific_rooms("danger_rooms")
+            list_wumpus = wumpus_room_one.get()
+            list_safe = room_one.get_specific_rooms("safe_rooms")
+            list_player_neighbour = player_one.north_south_west_east() 
+            coordinate_to_room_name_one = coordinate_to_room_name()   
+
+            print("You are in room " + coordinate_to_room_name_one.what_location_player(list_player, "player"))
+            print("Room beside you are rooms " + coordinate_to_room_name_one.neighbour_room_number(list_player_neighbour))
 
             if has_intersection(list_danger, list_player_neighbour):
                 """checks the surrounding for death"""
