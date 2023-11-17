@@ -22,72 +22,6 @@ def try_string():
 
 
 """make a function to check if the input to the Player is the right thing or not"""
-class arrow():
-
-    def __init__(self):
-        self.player_coordinate = {"x": 0, "y": 0}
-        self.alive = True
-
-    def start_coordinate(self, start_coordinate):
-        start_coordinate_x = start_coordinate[0]
-        start_coordinate_y = start_coordinate[1]
-        self.player_coordinate["x"] = start_coordinate_x
-        self.player_coordinate["y"] = start_coordinate_y
-
-    def is_alive(self):
-        return self.alive
-    
-    def get(self):
-        return self.player_coordinate
-
-    def dead(self):
-        self.alive = False
-        
-    def move(self, direction):
-
-        if direction == "N":
-            coordinate_x = self.player_coordinate.get("x")
-            coordinate_y = self.player_coordinate.get("y")
-            new_coordinate_x = coordinate_x + 0
-            new_coordinate_y = coordinate_y + 1
-            if new_coordinate_y > 4:
-                new_coordinate_y = 0
-            self.player_coordinate["x"] = new_coordinate_x
-            self.player_coordinate["y"] = new_coordinate_y
-            print(self.player_coordinate)
-
-        if direction == "S":
-            coordinate_x = self.player_coordinate.get("x")
-            coordinate_y = self.player_coordinate.get("y")
-            new_coordinate_x = coordinate_x + 0
-            new_coordinate_y = coordinate_y - 1
-            if new_coordinate_y < 0:
-                new_coordinate_y = 4
-            self.player_coordinate["x"] = new_coordinate_x
-            self.player_coordinate["y"] = new_coordinate_y
-            print(self.player_coordinate)
-
-        if direction == "E":
-            coordinate_x = self.player_coordinate.get("x")
-            coordinate_y = self.player_coordinate.get("y")
-            new_coordinate_x = coordinate_x + 1
-            new_coordinate_y = coordinate_y + 0
-            if new_coordinate_x > 3:
-                new_coordinate_x = 0
-            self.player_coordinate["x"] = new_coordinate_x
-            self.player_coordinate["y"] = new_coordinate_y
-            print(self.player_coordinate)
-
-        if direction == "W":
-            coordinate_x = self.player_coordinate.get("x")
-            coordinate_y = self.player_coordinate.get("y")
-            new_coordinate_x = coordinate_x - 1
-            new_coordinate_y = coordinate_y + 0
-            if new_coordinate_x < 0:
-                new_coordinate_x = 3
-            self.player_coordinate["x"] = new_coordinate_x
-            self.player_coordinate["y"] = new_coordinate_y
-            print(self.player_coordinate)
 
 
 
@@ -105,27 +39,6 @@ class safe_rooms():
     def get(self):
         return self.safe_room_coordiantes
 
-class wumpus_room():
-
-    def __init__(self, coordinate):
-        self.wumpus_room_coordiantes = (coordinate)
-        self.alive = True
-
-    def __str__(self):
-        return f"{self.wumpus_room_coordiantes[0]}"
-
-    def add(self, coordinate):
-        self.wumpus_room_coordiantes.pop[0]
-        self.wumpus_room_coordiantes.append(coordinate)
-
-    def get(self):
-        return self.wumpus_room_coordiantes
-
-    def is_boss_alive(self):
-        return self.alive
-    
-    def boss_dead(self):
-        self.alive = False
 
 class teleport_rooms():
     def __init__(self, coordinate):
@@ -245,7 +158,29 @@ class player():
                 new_coordinate_x = 3
             self.player_coordinate["x"] = new_coordinate_x
             self.player_coordinate["y"] = new_coordinate_y
-            #print(self.player_coordinate)
+            
+
+class wumpus_room():
+
+    def __init__(self, coordinate):
+        self.wumpus_room_coordiantes = (coordinate)
+        self.alive = True
+
+    def __str__(self):
+        return f"{self.wumpus_room_coordiantes[0]}"
+
+    def add(self, coordinate):
+        self.wumpus_room_coordiantes.pop[0]
+        self.wumpus_room_coordiantes.append(coordinate)
+
+    def get(self):
+        return self.wumpus_room_coordiantes
+
+    def is_boss_alive(self):
+        return self.alive
+    
+    def boss_dead(self):
+        self.alive = False
             
 
 class rooms():
@@ -321,6 +256,75 @@ class coordinate_to_room_name():
             room_numbers.append(x)
         return ", ".join(room_numbers)        
 
+class arrow():
+
+    def __init__(self):
+        self.player_coordinate = {"x": 0, "y": 0}
+        self.alive = True
+
+    def start_coordinate(self, start_coordinate):
+        start_coordinate_x = start_coordinate[0]
+        start_coordinate_y = start_coordinate[1]
+        self.player_coordinate["x"] = start_coordinate_x
+        self.player_coordinate["y"] = start_coordinate_y
+
+    def is_alive(self):
+        return self.alive
+    
+    def get(self):
+        x_coordinate = self.player_coordinate.get("x")
+        y_coordinate = self.player_coordinate.get("y")
+        
+        return x_coordinate, y_coordinate
+    
+    def dead(self):
+        self.alive = False
+        
+    def move(self, direction):
+
+        if direction == "N":
+            coordinate_x = self.player_coordinate.get("x")
+            coordinate_y = self.player_coordinate.get("y")
+            new_coordinate_x = coordinate_x + 0
+            new_coordinate_y = coordinate_y + 1
+            if new_coordinate_y > 4:
+                new_coordinate_y = 0
+            self.player_coordinate["x"] = new_coordinate_x
+            self.player_coordinate["y"] = new_coordinate_y
+            print(self.player_coordinate)
+
+        if direction == "S":
+            coordinate_x = self.player_coordinate.get("x")
+            coordinate_y = self.player_coordinate.get("y")
+            new_coordinate_x = coordinate_x + 0
+            new_coordinate_y = coordinate_y - 1
+            if new_coordinate_y < 0:
+                new_coordinate_y = 4
+            self.player_coordinate["x"] = new_coordinate_x
+            self.player_coordinate["y"] = new_coordinate_y
+            print(self.player_coordinate)
+
+        if direction == "E":
+            coordinate_x = self.player_coordinate.get("x")
+            coordinate_y = self.player_coordinate.get("y")
+            new_coordinate_x = coordinate_x + 1
+            new_coordinate_y = coordinate_y + 0
+            if new_coordinate_x > 3:
+                new_coordinate_x = 0
+            self.player_coordinate["x"] = new_coordinate_x
+            self.player_coordinate["y"] = new_coordinate_y
+            print(self.player_coordinate)
+
+        if direction == "W":
+            coordinate_x = self.player_coordinate.get("x")
+            coordinate_y = self.player_coordinate.get("y")
+            new_coordinate_x = coordinate_x - 1
+            new_coordinate_y = coordinate_y + 0
+            if new_coordinate_x < 0:
+                new_coordinate_x = 3
+            self.player_coordinate["x"] = new_coordinate_x
+            self.player_coordinate["y"] = new_coordinate_y
+            print(self.player_coordinate)
 
 def main():
     """input some kind of location to player"""
@@ -408,10 +412,26 @@ def main():
             if x == "m":
                 move = try_string()
                 player_one.move(move)
+            elif x == "s":
+                amount_of_arrows = 0
+                arrow_one.start_coordinate(list_player)
+                while arrow_one.is_alive():
+                    shot = try_string()
+                    
+                    arrow_one.move(shot)
 
-                if move == "test":        
-                    print("")
+                    x = arrow_one.get()
+                    y = wumpus_room_one.get()
 
+                    if  x == y:
+                        wumpus_room_one.boss_dead()
+                        print("game won")
+                    
+                    amount_of_arrows = amount_of_arrows + 1
+
+                    if amount_of_arrows == 3:
+                        arrow_one.dead()
+                    
 
 
 main()
