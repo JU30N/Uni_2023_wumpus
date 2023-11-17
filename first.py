@@ -17,14 +17,18 @@ def try_string():
         x = input("N,W,E,S?   : ")
     return x
 
+def has_intersection(lst1, lst2):
+    for i in lst2:
+        if i in lst1:
+            return True
+    return False
+
+def has_overlapp(lst1, x):
+    for i in lst1:
+        if i == x:
+            return True
+    return False
   
-
-
-
-"""make a function to check if the input to the Player is the right thing or not"""
-
-
-
 class danger_room():
     def __init__(self, coordinate):
         self.danger_room_coordiantes = (coordinate)
@@ -39,24 +43,94 @@ class safe_rooms():
     def get(self):
         return self.safe_room_coordiantes
 
-
 class teleport_rooms():
     def __init__(self, coordinate):
         self.teleport_room_coordiantes = (coordinate)
 
     def get(self):
         return self.teleport_room_coordiantes
+
+class wumpus_room():
+
+    def __init__(self, coordinate):
+        self.wumpus_room_coordiantes = (coordinate)
+        self.alive = True
+
+    def __str__(self):
+        return f"{self.wumpus_room_coordiantes[0]}"
+
+    def add(self, coordinate):
+        self.wumpus_room_coordiantes.pop[0]
+        self.wumpus_room_coordiantes.append(coordinate)
+
+    def get(self):
+        return self.wumpus_room_coordiantes
+
+    def is_boss_alive(self):
+        return self.alive
     
-    #def get_teleport_to(self, teleport_coordination_list):
-        self.teleport_room_coordiantes[0] = teleport_coordination_list[0]
-        self.teleport_room_coordiantes[1] = teleport_coordination_list[1]
-        self.teleport_room_coordiantes[2] = teleport_coordination_list[2]
-        self.teleport_room_coordiantes[3] = teleport_coordination_list[3]
+    def boss_dead(self):
+        self.alive = False
 
-
-
+class rooms():
     
-      
+    def __init__(self):   
+        self.rooms_dictionary = {"danger_rooms" : [], "teleport_rooms" : [], "safe_rooms" : [], "wumpus_room" : []}
+        
+    def get(self):
+        return self.rooms_dictionary
+
+    def add(self, room_type, room_coordinate):
+        self.rooms_dictionary[room_type].append(room_coordinate)
+
+    def get_specific_rooms(self, type_of_room):
+        if type_of_room == "danger_rooms":
+            x = self.rooms_dictionary.get(type_of_room)
+            return x
+        elif type_of_room == "teleport_rooms":
+            x = self.rooms_dictionary.get(type_of_room)
+            return x
+        elif type_of_room == "safe_rooms":
+            x = self.rooms_dictionary.get(type_of_room)
+            return x
+        elif type_of_room == "wumpus_room":
+            x = self.rooms_dictionary.get(type_of_room)
+            return x
+        
+class coordinate_to_room_name():
+    def __init__(self): 
+        self.dictionary_lst1 = {(0, 0) : "1", (0, 1) : "2", (0, 2) : "3", (0, 3) : "4", (0, 4) : "4",
+                                (1, 0) : "5", (1, 1) : "6", (1, 2) : "7", (1, 3) : "8", (1, 4) : "9",
+                                (2, 0) : "10", (2, 1): "11", (2, 2):"12", (2, 3): "13", (2, 4): "14",
+                                (3, 0) : "15", (3, 1): "16", (3, 2):"17", (3, 3): "18", (3, 4):"19"}
+    
+    def __str__(self):
+        return f""
+
+    def what_location_player(self, lst1, type_room):
+        x = self.dictionary_lst1.get(lst1)
+        if type_room == "player":
+            return x    
+        else:
+            return x
+        
+    def neighbour_room_number(self, list_tuple1):
+        room_numbers = []
+        for i in list_tuple1:
+            x = self.dictionary_lst1.get(i)
+            room_numbers.append(x)
+        return ", ".join(room_numbers)       
+     
+class score():
+    def __init__(self):
+        self.score_value = 0
+
+    def get(self):
+        return f"{self.score_value}"
+    
+    def add(self):
+        self.score_value = self.score_value + 1
+
 class player():
     """change the thing to dictionary to understand"""
     def __init__(self):
@@ -125,7 +199,6 @@ class player():
                 new_coordinate_y = 0
             self.player_coordinate["x"] = new_coordinate_x
             self.player_coordinate["y"] = new_coordinate_y
-            #print(self.player_coordinate)
 
         if direction == "S":
             coordinate_x = self.player_coordinate.get("x")
@@ -136,7 +209,6 @@ class player():
                 new_coordinate_y = 4
             self.player_coordinate["x"] = new_coordinate_x
             self.player_coordinate["y"] = new_coordinate_y
-            #print(self.player_coordinate)
 
         if direction == "E":
             coordinate_x = self.player_coordinate.get("x")
@@ -147,7 +219,6 @@ class player():
                 new_coordinate_x = 0
             self.player_coordinate["x"] = new_coordinate_x
             self.player_coordinate["y"] = new_coordinate_y
-            #print(self.player_coordinate)
 
         if direction == "W":
             coordinate_x = self.player_coordinate.get("x")
@@ -159,103 +230,6 @@ class player():
             self.player_coordinate["x"] = new_coordinate_x
             self.player_coordinate["y"] = new_coordinate_y
             
-
-class wumpus_room():
-
-    def __init__(self, coordinate):
-        self.wumpus_room_coordiantes = (coordinate)
-        self.alive = True
-
-    def __str__(self):
-        return f"{self.wumpus_room_coordiantes[0]}"
-
-    def add(self, coordinate):
-        self.wumpus_room_coordiantes.pop[0]
-        self.wumpus_room_coordiantes.append(coordinate)
-
-    def get(self):
-        return self.wumpus_room_coordiantes
-
-    def is_boss_alive(self):
-        return self.alive
-    
-    def boss_dead(self):
-        self.alive = False
-            
-
-class rooms():
-
-    def __init__(self):   
-        self.rooms_dictionary = {"danger_rooms" : [], "teleport_rooms" : [], "safe_rooms" : [], "wumpus_room" : []}
-        
-    def get(self):
-        return self.rooms_dictionary
-            
-
-
-    def add(self, room_type, room_coordinate):
-        self.rooms_dictionary[room_type].append(room_coordinate)
-
-    def get_specific_rooms(self, type_of_room):
-        if type_of_room == "danger_rooms":
-            x = self.rooms_dictionary.get(type_of_room)
-            return x
-        elif type_of_room == "teleport_rooms":
-            x = self.rooms_dictionary.get(type_of_room)
-            return x
-        elif type_of_room == "safe_rooms":
-            x = self.rooms_dictionary.get(type_of_room)
-            return x
-        elif type_of_room == "wumpus_room":
-            x = self.rooms_dictionary.get(type_of_room)
-            return x
-  
-def has_intersection(lst1, lst2):
-    for i in lst2:
-        if i in lst1:
-            return True
-    return False
-
-def has_overlapp(lst1, x):
-    for i in lst1:
-        if i == x:
-            return True
-    return False
-
-class score():
-    def __init__(self):
-        self.score_value = 0
-
-    def get(self):
-        return f"{self.score_value}"
-    
-    def add(self):
-        self.score_value = self.score_value + 1
-
-class coordinate_to_room_name():
-    def __init__(self): 
-        self.dictionary_lst1 = {(0, 0) : "1", (0, 1) : "2", (0, 2) : "3", (0, 3) : "4", (0, 4) : "4",
-                                (1, 0) : "5", (1, 1) : "6", (1, 2) : "7", (1, 3) : "8", (1, 4) : "9",
-                                (2, 0) : "10", (2, 1): "11", (2, 2):"12", (2, 3): "13", (2, 4): "14",
-                                (3, 0) : "15", (3, 1): "16", (3, 2):"17", (3, 3): "18", (3, 4):"19"}
-    
-    def __str__(self):
-        return f""
-
-    def what_location_player(self, lst1, type_room):
-        x = self.dictionary_lst1.get(lst1)
-        if type_room == "player":
-            return x    
-        else:
-            return x
-        
-    def neighbour_room_number(self, list_tuple1):
-        room_numbers = []
-        for i in list_tuple1:
-            x = self.dictionary_lst1.get(i)
-            room_numbers.append(x)
-        return ", ".join(room_numbers)        
-
 class arrow():
 
     def __init__(self):
@@ -270,6 +244,9 @@ class arrow():
 
     def is_alive(self):
         return self.alive
+    
+    def back_alive(self):
+        self.alive = True
     
     def get(self):
         x_coordinate = self.player_coordinate.get("x")
@@ -327,23 +304,17 @@ class arrow():
             print(self.player_coordinate)
 
 def main():
-    """input some kind of location to player"""
-    """adding certain amount of dangerrooms to the list of all rooms in class room because it is similar to the labb 6"""    
 
     room_one = rooms()
     player_one = player()
     arrow_one = arrow()
     score_one = score()
 
-
     teleport_coordiantes_to = []
 
     """suffles all the rooms to random coordinates"""
     list_of_all_rooms = [(y, x) for x in range(5) for y in range(4)]
     random.shuffle(list_of_all_rooms)
-
-    
-
 
     """adding rooms to respective list"""
     for i in range(0, 5, 1):
@@ -364,13 +335,10 @@ def main():
         teleport_room_one = teleport_rooms(teleport_rooms_coordinates)
         room_one.add("teleport_rooms", teleport_room_one.get())
 
-
     x_coordinates = safe_rooms_one.safe_room_coordiantes[0]
     y_coordinates = safe_rooms_one.safe_room_coordiantes[1]
     start_coordinates = [x_coordinates, y_coordinates]
     player_one.start_coordinate(start_coordinates)
-
-
 
     while player_one.is_alive():
         while wumpus_room_one.is_boss_alive():
@@ -383,7 +351,6 @@ def main():
                 lst = list_safe[i]
                 player_one.start_coordinate(lst)
                 list_player = player_one.get()
-
 
             list_danger = room_one.get_specific_rooms("danger_rooms")
             list_wumpus = wumpus_room_one.get()
@@ -406,7 +373,6 @@ def main():
                 """checks the surrounding for teleport"""
                 print("You can hear bats")
 
-
             x = input("move or shoot,  m/s   : ")
             score_one.add()
             if x == "m":
@@ -415,15 +381,12 @@ def main():
             elif x == "s":
                 amount_of_arrows = 0
                 arrow_one.start_coordinate(list_player)
+                arrow_one.back_alive() 
                 while arrow_one.is_alive():
-                    shot = try_string()
-                    
+                    shot = try_string()                    
                     arrow_one.move(shot)
 
-                    x = arrow_one.get()
-                    y = wumpus_room_one.get()
-
-                    if  x == y:
+                    if arrow_one.get() == wumpus_room_one.get():
                         wumpus_room_one.boss_dead()
                         print("game won")
                     
