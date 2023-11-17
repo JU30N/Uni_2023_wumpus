@@ -17,6 +17,13 @@ def try_string():
         x = input("N,W,E,S?   : ")
     return x
 
+def select_mode():
+    x = input("Hard or Normal, H/N : ")
+    while not check_if_string(x):
+        print("not an H or N")
+        x = input("Hard or Normal, H/N : ")
+    return x
+    
 def has_intersection(lst1, lst2):
     for i in lst2:
         if i in lst1:
@@ -29,14 +36,8 @@ def has_overlapp(lst1, x):
             return True
     return False
 
-def has_wumpus_neighbour(lst1, lst2):
-    if lst1 == lst2:
-        return True
-    else:
-        return False
-    
-def has_overlapp_intersection(lst1, x):
-    for i in lst1:
+def has_overlapp_intersection(tuple1, x):
+    for i in tuple1:
         if x == i:
             return True
     return False
@@ -331,23 +332,44 @@ def main():
     random.shuffle(list_of_all_rooms)
 
     """adding rooms to respective list"""
-    for i in range(0, 5, 1):
+
+    difficulty = select_mode()
+    if difficulty == "H":
+        mode_level = 9
+        mode_level_a  = 10
+        mode_level_teleport = mode_level + 2
+        mode_level_safe = mode_level + 3
+        mode_level_teleport_a = mode_level + mode_level_teleport
+        mode_level_safe_a = 20
+    if difficulty == "N":
+        mode_level = 5
+        mode_level_a = 5
+        mode_level_teleport = 9
+        mode_level_teleport_a = mode_level + mode_level_teleport
+        mode_level_safe = 10
+        mode_level_safe_a = 20
+        
+    for i in range(0, mode_level, 1):
         danger_rooms_coordinates = list_of_all_rooms[i]
         danger_room_one = danger_room(danger_rooms_coordinates)
         room_one.add("danger_rooms", danger_room_one.get())
     wumpus_room_coordiantes = list_of_all_rooms[9]
     wumpus_room_one = wumpus_room(wumpus_room_coordiantes)
     room_one.add("wumpus_room",wumpus_room_one.get())
-    for y in range(10, 20, 1):
+    for y in range(mode_level_safe, mode_level_safe_a, 1):
         safe_roooms_coordinates = list_of_all_rooms[y]
         safe_rooms_one = safe_rooms(safe_roooms_coordinates)
         room_one.add("safe_rooms", safe_rooms_one.get())
-    for z in range(10, 14, 1):
+    for z in range(mode_level_safe, mode_level_teleport_a, 1):
         teleport_coordiantes_to.append(z)
-    for x in range(5, 9, 1):
+    for x in range(mode_level_a, mode_level_teleport, 1):
         teleport_rooms_coordinates = list_of_all_rooms[x]
         teleport_room_one = teleport_rooms(teleport_rooms_coordinates)
         room_one.add("teleport_rooms", teleport_room_one.get())
+
+    5 
+
+
 
     x_coordinates = safe_rooms_one.safe_room_coordiantes[0]
     y_coordinates = safe_rooms_one.safe_room_coordiantes[1]
@@ -357,20 +379,22 @@ def main():
     while player_one.is_alive():
         while wumpus_room_one.is_boss_alive():
             list_teleport = room_one.get_specific_rooms("teleport_rooms")
-            list_player = player_one.get()
+            player_coord = player_one.get()
 
-            if has_overlapp(list_teleport, list_player):
+            if has_overlapp(list_teleport, player_coord):
                 print("You got teleported")
                 i = random.randint(0, 9)
                 lst = list_safe[i]
                 player_one.start_coordinate(lst)
-                list_player = player_one.get()
+                player_coord = player_one.get()
 
             list_danger = room_one.get_specific_rooms("danger_rooms")
             list_wumpus = wumpus_room_one.get()
             list_safe = room_one.get_specific_rooms("safe_rooms")
             list_player_neighbour = player_one.north_south_west_east() 
             coordinate_to_room_name_one = coordinate_to_room_name()   
+
+
 
             print("wumpus location is")
             print(list_wumpus)
@@ -381,10 +405,14 @@ def main():
             print(list_player_neighbour)
             print(has_overlapp_intersection(list_player_neighbour, list_wumpus))
             print("x")
-            print(list_player)
+            print(player_coord)
+            print(list_danger)
 
-            print("You are in room " + coordinate_to_room_name_one.what_location_player(list_player, "player"))
+            print("You are in room " + coordinate_to_room_name_one.what_location_player(player_coord, "player"))
             print("Room beside you are rooms " + coordinate_to_room_name_one.neighbour_room_number(list_player_neighbour))
+
+
+
 
             if has_intersection(list_danger, list_player_neighbour):
                 """checks the surrounding for death"""
@@ -398,6 +426,12 @@ def main():
                 """checks the surrounding for teleport"""
                 print("You can hear bats")
 
+            if has_overlapp(list_danger, player_coord):
+                """checks if player is on the danger"""
+                print("game over")
+                wumpus_room_one.boss_dead()
+                player_one.dead()
+
             x = input("move or shoot,  m/s   : ")
             score_one.add()
             if x == "m":
@@ -405,7 +439,7 @@ def main():
                 player_one.move(move)
             elif x == "s":
                 amount_of_arrows = 0
-                arrow_one.start_coordinate(list_player)
+                arrow_one.start_coordinate(player_coord)
                 arrow_one.back_alive() 
                 while arrow_one.is_alive():
                     shot = try_string()                    
@@ -415,7 +449,8 @@ def main():
                         wumpus_room_one.boss_dead()
                         print("game won")
                         score_one.get()
-                        player_one.dead
+                        player_one.dead()
+                        arrow_one.dead()
 
                     amount_of_arrows = amount_of_arrows + 1
 
