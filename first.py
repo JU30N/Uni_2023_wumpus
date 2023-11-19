@@ -387,6 +387,8 @@ def check_n_h(x):
     else:
         print("N or H or E")
         return True
+    
+
 def main():
     
 
@@ -457,10 +459,15 @@ def main():
     start_coordinates = [x_coordinates, y_coordinates]
     player_one.start_coordinate(start_coordinates)
 
-    while player_one.is_alive():
-        while wumpus_room_one.is_boss_alive():
+    
+    while wumpus_room_one.is_boss_alive():
             list_teleport = room_one.get_specific_rooms("teleport_rooms")
             player_coord = player_one.get()
+            list_danger = room_one.get_specific_rooms("danger_rooms")
+            list_wumpus = wumpus_room_one.get()
+            list_safe = room_one.get_specific_rooms("safe_rooms")
+            list_player_neighbour = player_one.north_south_west_east() 
+            coordinate_to_room_name_one = coordinate_to_room_name()   
 
             if has_overlapp(list_teleport, player_coord):
                 print("You got teleported")
@@ -469,66 +476,82 @@ def main():
                 player_one.start_coordinate(lst)
                 player_coord = player_one.get()
 
-            list_danger = room_one.get_specific_rooms("danger_rooms")
-            list_wumpus = wumpus_room_one.get()
-            list_safe = room_one.get_specific_rooms("safe_rooms")
-            list_player_neighbour = player_one.north_south_west_east() 
-            coordinate_to_room_name_one = coordinate_to_room_name()   
-
-            print("You are in room " + coordinate_to_room_name_one.what_location_player(player_coord, "player"))
-            print("Room beside you are rooms " + coordinate_to_room_name_one.neighbour_room_number(list_player_neighbour))
-
-
-            if true_or_not(true_for_boss_movment):
-                wumpus_room_one.boss_move(player_coord)
-
-            if has_intersection(list_danger, list_player_neighbour):
-                """checks the surrounding for death"""
-                print("You can feel the wind gust")
-
-            if has_overlapp_intersection(list_player_neighbour, list_wumpus):
-                """checks the surrounding for wumpus"""
-                print("You can smell wumpus")
-
-            if has_intersection(list_teleport, list_player_neighbour):
-                """checks the surrounding for teleport"""
-                print("You can hear bats")
-
             if has_overlapp(list_danger, player_coord):
                 """checks if player is on the danger"""
+                print("You fell down a cliff")
                 print("game over")
                 wumpus_room_one.boss_dead()
                 player_one.dead()
 
-            x = input("move or shoot,  m/s   : ")
-            score_one.add()
-            if x == "m":
-                move = try_string()
-                player_one.move(move)
-            elif x == "s":
-                amount_of_arrows = 0
-                arrow_one.start_coordinate(player_coord)
-                arrow_one.back_alive() 
-                while arrow_one.is_alive():
-                    shot = try_string()                    
-                    arrow_one.move(shot)
+            
 
-                    if arrow_one.get() == wumpus_room_one.get():
-                        wumpus_room_one.boss_dead()
-                        print("game won")
-                        score_str = str(score_one.get())
-                        score_str_one = score_str + "\n"
-                        with open("high_score", 'w') as file:
-                            file.write(score_str_one)
 
-                        player_one.dead()
-                        arrow_one.dead()
 
-                    amount_of_arrows = amount_of_arrows + 1
 
-                    if amount_of_arrows == 3:
-                        arrow_one.dead()
-    print("game" + "/n" + "hi game won or game over i dont know")
+
+            while player_one.is_alive():
+                print("You are in room " + coordinate_to_room_name_one.what_location_player(player_coord, "player"))
+                print("Room beside you are rooms " + coordinate_to_room_name_one.neighbour_room_number(list_player_neighbour))
+
+                if true_or_not(true_for_boss_movment):
+                    wumpus_room_one.boss_move(player_coord)
+
+                if has_intersection(list_danger, list_player_neighbour):
+                    """checks the surrounding for death"""
+                    print("You can feel the wind gust")
+
+                if has_overlapp_intersection(list_player_neighbour, list_wumpus):
+                    """checks the surrounding for wumpus"""
+                    print("You can smell wumpus")
+
+
+                if has_intersection(list_teleport, list_player_neighbour):
+                    """checks the surrounding for teleport"""
+                    print("You can hear bats") 
+
+            
+            
+                x = input("move or shoot,  m/s   : ")
+                score_one.add()
+                if x == "m":
+                    move = try_string()
+                    player_one.move(move)
+                    break
+                elif x == "s":
+                    amount_of_arrows = 0
+                    arrow_one.start_coordinate(player_coord)
+                    arrow_one.back_alive() 
+                    while arrow_one.is_alive():
+                        shot = try_string()                    
+                        arrow_one.move(shot)
+
+                        if arrow_one.get() == wumpus_room_one.get():
+                            wumpus_room_one.boss_dead()
+                            print("game won")
+                            score_str = str(score_one.get())
+                            score_str_one = score_str + "\n"
+                            with open("high_score", 'w') as file:
+                                file.write(score_str_one)
+
+                            player_one.dead()
+                            arrow_one.dead()
+                            break
+
+                        amount_of_arrows = amount_of_arrows + 1
+
+                        if amount_of_arrows == 3:
+                            arrow_one.dead()
+                else:
+                    print("error")
+
+
+
+
+
+
+
+
+                        
                     
 
 
