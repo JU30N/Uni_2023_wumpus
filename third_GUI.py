@@ -16,66 +16,6 @@ button_board.grid(row=1, column=0)
 
 
 
-class Player():
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-        self.alive_or_dead = True
-        self.player_drawing = game_board.create_rectangle(self.x, self.y, (self.x + 100), (self.y - 100), fill='pink')
-
-
-    def status(self):
-        return self.alive_or_dead
-    
-    def dead(self):
-        self.alive_or_dead = False
-        return self.alive_or_dead
-    
-   
-
-    def get(self):
-        """returns a list of the players coordinates"""
-        return self.x, self.y
-
-    def move_up(self):
-        self.y = self.y - 100
-        if self.y == 0:
-            self.y = 500
-            game_board.delete(self.player_drawing)
-            self.player_drawing = game_board.create_rectangle(self.x, self.y, (self.x + 100), (self.y - 100), fill='pink')
-
-        game_board.delete(self.player_drawing)
-        self.player_drawing = game_board.create_rectangle(self.x, self.y, (self.x + 100), (self.y - 100), fill='pink')
-
-
-    def move_down(self):
-        self.y = self.y + 100
-        if self.y > 500:
-            self.y = 100
-            game_board.delete(self.player_drawing)
-            self.player_drawing = game_board.create_rectangle(self.x, self.y, (self.x + 100), (self.y - 100), fill='pink')
-
-        game_board.delete(self.player_drawing)
-        self.player_drawing = game_board.create_rectangle(self.x, self.y, (self.x + 100), (self.y - 100), fill='pink')
-
-    def move_left(self):
-        self.x = self.x - 100
-        if self.x < 0:
-            self.x = 400
-            game_board.delete(self.player_drawing)
-            self.player_drawing = game_board.create_rectangle(self.x, self.y, (self.x + 100), (self.y - 100), fill='pink')
-        game_board.delete(self.player_drawing)
-        self.player_drawing = game_board.create_rectangle(self.x, self.y, (self.x + 100), (self.y - 100), fill='pink')
-
-    def move_right(self):
-        self.x = self.x + 100
-        if self.x > 400:
-            self.x = 0
-            game_board.delete(self.player_drawing)
-            self.player_drawing = game_board.create_rectangle(self.x, self.y, (self.x + 100), (self.y - 100), fill='pink')
-        game_board.delete(self.player_drawing)
-        self.player_drawing = game_board.create_rectangle(self.x, self.y, (self.x + 100), (self.y - 100), fill='pink')
-
 
 class Drawing():
 
@@ -183,22 +123,10 @@ class Clicks():
             self.button_state = NORMAL
 
 def main():
-    clicks_amount = Clicks()
-    if not clicks_amount.get():
+    while clicks_amount.get():
         clicks_amount.change_state()
-    up_button_arrow = Button(button_board, text= 'up arrow', command=clicks_amount.add(), state=clicks_amount.get_state())
-    up_button_arrow.grid(row=0, column= 0)
+
         
-    down_button_arrow = Button(button_board, text= 'down arrow', command=clicks_amount.add(), state=clicks_amount.get_state())
-    down_button_arrow.grid(row=2, column= 3)
-
-    left_button_arrow = Button(button_board, text= 'left arrow', command=clicks_amount.add(), state=clicks_amount.get_state())
-    left_button_arrow.grid(row=2, column= 0)
-
-    right_button_arrow = Button(button_board, text= 'right arrow', command=clicks_amount.add(), state=clicks_amount.get_state())
-    right_button_arrow.grid(row=0, column= 3)
-
-    
 
 
 def switch():
@@ -225,26 +153,105 @@ def switch():
         right_button["text"] = "right"    
 
 
-player_one = Player(0, 500)
-arrow_one = Arrow(0, 500)
+class Player_arrow_wumpus():
+    def __init__(self, x, y, xw= 0, yw= 0, xt= 0, yt= 0, xd= 0, yd= 0):
+        self.x_player = x
+        self.y_player = y
 
-    
-print("one")
-        
-up_button = Button(button_board, text= 'up', command= player_one.move_up)
-up_button.grid(row=0, column= 1)
-    
-down_button = Button(button_board, text= 'down', command= player_one.move_down)
-down_button.grid(row=2, column= 1)
+        self.x_wumpus = xw
+        self.y_wumpus = yw
 
-left_button = Button(button_board, text= 'left', command= player_one.move_left)
-left_button.grid(row=1, column= 0)
+        self.x_teleport = xt
+        self.y_teleport = yt
 
-right_button = Button(button_board, text= 'right', command= player_one.move_right)
-right_button.grid(row=1, column= 3)
+        self.x_death = xd
+        self.y_death = yd
 
-shoot_button_arrow = Button(button_board, text= 'shoot', command=switch)
-shoot_button_arrow.grid(row=1, column= 1)
+        self.status_player = True
+        self.status_wumpus = True
+
+        """create button"""
+        self.create_button()
+
+        """drawing"""
+        self.player_drawing = game_board.create_rectangle(self.x_player, self.y_player, (self.x_player + 100), (self.y_player - 100), fill='pink')
+
+    def create_button(self):
+        up_button = Button(button_board, text= 'up', command= self.move_up)
+        up_button.grid(row=0, column= 1)
+            
+        down_button = Button(button_board, text= 'down', command= self.move_down)
+        down_button.grid(row=2, column= 1)
+
+        left_button = Button(button_board, text= 'left', command= self.move_left)
+        left_button.grid(row=1, column= 0)
+
+        right_button = Button(button_board, text= 'right', command= self.move_right)
+        right_button.grid(row=1, column= 3)
+
+        shoot_button_arrow = Button(button_board, text= 'shoot', command=switch)
+        shoot_button_arrow.grid(row=1, column= 1)
+
+        up_button_arrow = Button(button_board, text= 'up arrow')
+        up_button_arrow.grid(row=0, column= 0)
+            
+        down_button_arrow = Button(button_board, text= 'down arrow')
+        down_button_arrow.grid(row=2, column= 3)
+
+        left_button_arrow = Button(button_board, text= 'left arrow')
+        left_button_arrow.grid(row=2, column= 0)
+
+        right_button_arrow = Button(button_board, text= 'right arrow')
+        right_button_arrow.grid(row=0, column= 3)     
+
+
+
+    def move_up(self):
+        self.y_player= self.y_player - 100
+        if self.y_player == 0:
+            self.y_player = 500
+            game_board.delete(self.player_drawing)
+            self.player_drawing = game_board.create_rectangle(self.x_player, self.y_player, (self.x_player + 100), (self.y_player - 100), fill='pink')
+
+        game_board.delete(self.player_drawing)
+        self.player_drawing = game_board.create_rectangle(self.x_player, self.y_player, (self.x_player + 100), (self.y_player - 100), fill='pink')
+
+    def move_down(self):
+        self.y_player = self.y_player + 100
+        if self.y_player > 500:
+            self.y_player = 100
+            game_board.delete(self.player_drawing)
+            self.player_drawing = game_board.create_rectangle(self.x_player, self.y_player, (self.x_player + 100), (self.y_player - 100), fill='pink')
+
+        game_board.delete(self.player_drawing)
+        self.player_drawing = game_board.create_rectangle(self.x_player, self.y_player, (self.x_player + 100), (self.y_player - 100), fill='pink')
+
+    def move_left(self):
+        self.x_player = self.x_player - 100
+        if self.x_player < 0:
+            self.x_player = 400
+            game_board.delete(self.player_drawing)
+            self.player_drawing = game_board.create_rectangle(self.x_player, self.y_player, (self.x_player + 100), (self.y_player - 100), fill='pink')
+        game_board.delete(self.player_drawing)
+        self.player_drawing = game_board.create_rectangle(self.x_player, self.y_player, (self.x_player + 100), (self.y_player - 100), fill='pink')
+
+    def move_right(self):
+        self.x_player = self.x_player + 100
+        if self.x_player > 400:
+            self.x_player = 0
+            game_board.delete(self.player_drawing)
+            self.player_drawing = game_board.create_rectangle(self.x_player, self.y_player, (self.x_player + 100), (self.y_player - 100), fill='pink')
+        game_board.delete(self.player_drawing)
+        self.player_drawing = game_board.create_rectangle(self.x_player, self.y_player, (self.x_player + 100), (self.y_player - 100), fill='pink')
+
+
+
+
+
+
+
+player_one = Player_arrow_wumpus(0, 500)
+
 
 
 
