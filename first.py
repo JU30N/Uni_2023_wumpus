@@ -3,6 +3,26 @@ import random
 """make a new file like student files with rooms an like students take 3 of those"""
 
 
+
+def welcome():
+    print("You are in the culverts under the D building, where the ravenous Wumpus" + 
+        "lives. To avoid getting caught, you have to shoot the Wumpus with yours" + 
+        "bow and arrow. The culverts have 20 rooms connected by narrow passages." +
+        "You can move north, east, south or west from one room to" +
+        "another." +
+        "However, there are dangers lurking here. In some rooms there are bottomless holes. Stepping" + 
+        "you down in such a you die immediately. In other rooms there are bats" +
+        "which lifts you up, flies a bit and drops you in an arbitrary" + 
+        "room. In one of the rooms there are Wumpus, and if you venture into that room" +
+        "you will immediately be busy. Luckily, you can feel it from the rooms next door" +
+        "the draft from an abyss or the smell of Wumpus. You can too" +
+        "in each room find out which rooms are next to each other." +
+        "To win the game you must shoot the Wumpus. When you shoot one" +
+        "arrow it moves through three rooms - you can control which direction" +
+        "the arrow must select in each room. Don't forget that the tunnels wind" +
+        "in unexpected ways. You can shoot yourself..." +
+        "You have five arrows. Good luck!")
+
 def check_if_string(input):
     try:
         int(input)
@@ -336,7 +356,7 @@ class arrow():
                 new_coordinate_y = 0
             self.player_coordinate["x"] = new_coordinate_x
             self.player_coordinate["y"] = new_coordinate_y
-            print(self.player_coordinate)
+            #print(self.player_coordinate)
 
         if direction == "S":
             coordinate_x = self.player_coordinate.get("x")
@@ -347,7 +367,7 @@ class arrow():
                 new_coordinate_y = 4
             self.player_coordinate["x"] = new_coordinate_x
             self.player_coordinate["y"] = new_coordinate_y
-            print(self.player_coordinate)
+            #print(self.player_coordinate)
 
         if direction == "E":
             coordinate_x = self.player_coordinate.get("x")
@@ -358,7 +378,7 @@ class arrow():
                 new_coordinate_x = 0
             self.player_coordinate["x"] = new_coordinate_x
             self.player_coordinate["y"] = new_coordinate_y
-            print(self.player_coordinate)
+            #print(self.player_coordinate)
 
         if direction == "W":
             coordinate_x = self.player_coordinate.get("x")
@@ -369,7 +389,7 @@ class arrow():
                 new_coordinate_x = 3
             self.player_coordinate["x"] = new_coordinate_x
             self.player_coordinate["y"] = new_coordinate_y
-            print(self.player_coordinate)
+            #print(self.player_coordinate)
 
 def true_or_not(input):
     if input == "1":
@@ -391,6 +411,9 @@ def check_n_h(x):
 
 def main():
     
+    welcome()
+
+
     """making all the objects"""
     room_one = rooms()
     player_one = player()
@@ -403,7 +426,7 @@ def main():
     list_of_all_rooms = [(y, x) for x in range(5) for y in range(4)]
     random.shuffle(list_of_all_rooms)
 
-    """adding rooms to respective list"""
+    """selecting difficulty"""
     x = select_mode()
     while check_n_h(x):
         if x == "H":
@@ -491,10 +514,6 @@ def main():
 
             
 
-
-
-
-
             while player_one.is_alive():
                 print("You are in room " + coordinate_to_room_name_one.what_location_player(player_coord, "player"))
                 print("Room beside you are rooms " + coordinate_to_room_name_one.neighbour_room_number(list_player_neighbour))
@@ -545,20 +564,9 @@ def main():
 
                         amount_of_arrows = amount_of_arrows + 1
 
-                        if amount_of_arrows == 3:
+                        if amount_of_arrows == 5:
                             arrow_one.dead()
                 else:
                     print("error")
-
-
-
-
-
-
-
-
-                        
-                    
-
 
 main()
