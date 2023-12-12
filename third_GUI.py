@@ -1,6 +1,4 @@
 import tkinter as tk
-from tkinter import *
-import time
 
 
 
@@ -224,8 +222,7 @@ class Player_arrow_wumpus():
             self.left_button_arrow.configure(state=DISABLED)
 
     def move_right_arrow(self):
-        self.y_arrow = self.y_player
-        self.x_arrow = self.x_player
+
         self.x_arrow = self.x_arrow + 100
         self.amount_of_clicks += 1
         self.arrow_drawing = self.game_board.create_oval(self.x_arrow, self.y_arrow, (self.x_arrow + 100), (self.y_arrow - 100), fill='blue')

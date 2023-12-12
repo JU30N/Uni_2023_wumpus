@@ -530,7 +530,7 @@ def main():
                             print("game won")
                             score_str = str(score_one.get())
                             score_str_one = score_str + "\n"
-                            with open("high_score", 'w') as file:
+                            with open("high_score", 'a') as file:
                                 file.write(score_str_one)
 
                             player_one.dead()
