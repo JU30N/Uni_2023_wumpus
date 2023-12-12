@@ -391,7 +391,7 @@ def check_n_h(x):
 
 def main():
     
-
+    """making all the objects"""
     room_one = rooms()
     player_one = player()
     arrow_one = arrow()
@@ -435,20 +435,26 @@ def main():
             break
         else:
             x = select_mode()
-            
+
+
+    """creating rooms"""
     for i in range(0, mode_level, 1):
         danger_rooms_coordinates = list_of_all_rooms[i]
         danger_room_one = danger_room(danger_rooms_coordinates)
         room_one.add("danger_rooms", danger_room_one.get())
+
     wumpus_room_coordiantes = list_of_all_rooms[9]
     wumpus_room_one = wumpus_room(wumpus_room_coordiantes)
     room_one.add("wumpus_room",wumpus_room_one.get())
+
     for y in range(mode_level_safe, mode_level_safe_a, 1):
         safe_roooms_coordinates = list_of_all_rooms[y]
         safe_rooms_one = safe_rooms(safe_roooms_coordinates)
         room_one.add("safe_rooms", safe_rooms_one.get())
+
     for z in range(mode_level_safe, mode_level_teleport_a, 1):
         teleport_coordiantes_to.append(z)
+
     for x in range(mode_level_a, mode_level_teleport, 1):
         teleport_rooms_coordinates = list_of_all_rooms[x]
         teleport_room_one = teleport_rooms(teleport_rooms_coordinates)
@@ -459,7 +465,7 @@ def main():
     start_coordinates = [x_coordinates, y_coordinates]
     player_one.start_coordinate(start_coordinates)
 
-    
+    """main gaming """
     while wumpus_room_one.is_boss_alive():
             list_teleport = room_one.get_specific_rooms("teleport_rooms")
             player_coord = player_one.get()
@@ -510,7 +516,7 @@ def main():
                     print("You can hear bats") 
 
             
-            
+                """shoot or move"""
                 x = input("move or shoot,  m/s   : ")
                 score_one.add()
                 if x == "m":
