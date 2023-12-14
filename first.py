@@ -534,6 +534,13 @@ def main():
             
 
             while player_one.is_alive():
+                #print(list_danger)
+                #print(list_safe)
+                #print("oooooooooooooooo")
+                #print(list_wumpus)
+                #print("oooooooooooooooooo")
+                #print(player_coord)
+
                 print("You are in room " + coordinate_to_room_name_one.what_location_player(player_coord, "player"))
                 print("Room beside you are rooms " + coordinate_to_room_name_one.neighbour_room_number(list_player_neighbour))
 
@@ -568,6 +575,8 @@ def main():
                     while arrow_one.is_alive():
                         shot = try_string()                    
                         arrow_one.move(shot)
+                        #print(arrow_one.get())
+                        amount_of_arrows = amount_of_arrows + 1
 
                         if arrow_one.get() == wumpus_room_one.get():
                             wumpus_room_one.boss_dead()
@@ -580,10 +589,9 @@ def main():
                             arrow_one.dead()
                             break
 
-                        amount_of_arrows = amount_of_arrows + 1
-
-                        if amount_of_arrows == 5:
+                        if amount_of_arrows == 3:
                             arrow_one.dead()
+                            break
                 else:
                     print("error")
 
