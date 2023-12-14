@@ -431,27 +431,27 @@ def main():
     while check_n_h(x):
         if x == "H":
             mode_level = 9
-            mode_level_a  = 10
-            mode_level_teleport = mode_level + 2
-            mode_level_safe = mode_level + 3
-            mode_level_teleport_a = mode_level + mode_level_teleport
+            mode_level_teleport = 20
+            mode_level_safe = 11
+            mode_level_a_one  = 16
+            mode_level_teleport_a = 15
             mode_level_safe_a = 20
             true_for_boss_movment = 1
             break
         elif x == "N":
             mode_level = 5
-            mode_level_a = 5
-            mode_level_teleport = 9
-            mode_level_teleport_a = mode_level + mode_level_teleport
-            mode_level_safe = 10
+            mode_level_a_one = 13
+            mode_level_teleport = 18
+            mode_level_teleport_a = 12
+            mode_level_safe = 7
             mode_level_safe_a = 20
             true_for_boss_movment = 0
             break
         elif x == "E":
             mode_level = 5
-            mode_level_a = 5
-            mode_level_teleport = 6
-            mode_level_teleport_a = mode_level + mode_level_teleport
+            mode_level_a_one = 11
+            mode_level_teleport = 16
+            mode_level_teleport_a = 10
             mode_level_safe = 7
             mode_level_safe_a = 20
             true_for_boss_movment = 0
@@ -461,24 +461,42 @@ def main():
 
 
     """creating rooms"""
+    """Hard        0      9      """
+    """Normal      0      5 """
+    """ez          0      5 """
     for i in range(0, mode_level, 1):
         danger_rooms_coordinates = list_of_all_rooms[i]
         danger_room_one = danger_room(danger_rooms_coordinates)
         room_one.add("danger_rooms", danger_room_one.get())
 
-    wumpus_room_coordiantes = list_of_all_rooms[9]
+
+    """hard                    10 """
+    """normal                   6"""
+    """ez                       6"""
+    wumpus_room_location = mode_level + 1
+    wumpus_room_coordiantes = list_of_all_rooms[wumpus_room_location]
     wumpus_room_one = wumpus_room(wumpus_room_coordiantes)
     room_one.add("wumpus_room",wumpus_room_one.get())
 
+
+    """Hard:             11              20           """
+    """Normal            7              20"""
+    """ez                7               20"""
     for y in range(mode_level_safe, mode_level_safe_a, 1):
         safe_roooms_coordinates = list_of_all_rooms[y]
         safe_rooms_one = safe_rooms(safe_roooms_coordinates)
         room_one.add("safe_rooms", safe_rooms_one.get())
 
+    """hard              11                     15"""
+    """normal             7                      12"""
+    """ez                  7                      10"""
     for z in range(mode_level_safe, mode_level_teleport_a, 1):
         teleport_coordiantes_to.append(z)
 
-    for x in range(mode_level_a, mode_level_teleport, 1):
+    """hard                   16             20     """
+    """normal                 13             18 """
+    """ez                    11              16"""
+    for x in range(mode_level_a_one, mode_level_teleport, 1):
         teleport_rooms_coordinates = list_of_all_rooms[x]
         teleport_room_one = teleport_rooms(teleport_rooms_coordinates)
         room_one.add("teleport_rooms", teleport_room_one.get())
@@ -500,7 +518,8 @@ def main():
 
             if has_overlapp(list_teleport, player_coord):
                 print("You got teleported")
-                i = random.randint(0, 9)
+                amount = mode_level_safe_a - mode_level_safe
+                i = random.randint(0, amount)
                 lst = list_safe[i]
                 player_one.start_coordinate(lst)
                 player_coord = player_one.get()
@@ -553,11 +572,10 @@ def main():
                         if arrow_one.get() == wumpus_room_one.get():
                             wumpus_room_one.boss_dead()
                             print("game won")
-                            score_str = str(score_one.get())
-                            score_str_one = score_str + "\n"
+                            score_str = score_one.get()
                             with open("high_score", 'a') as file:
-                                file.write(score_str_one)
-
+                                file.write(score_str)
+                                file.write("\n")
                             player_one.dead()
                             arrow_one.dead()
                             break
