@@ -291,6 +291,8 @@ class Game():
         
         elif location_x == self.death_x and location_y == self.death_y:
             print("ur death")
+            messagebox.showinfo("show", "game lost")
+            quit()
 
         
         
